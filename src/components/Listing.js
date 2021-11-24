@@ -58,7 +58,7 @@ export default function Listing({ navigation, filter, date }) {
 
   return (
     <SafeAreaView>
-      {Array.isArray(data) &&
+      {Array.isArray(data) ?
         <FlatList
           data={data.sort(SortingFunction)}
           renderItem={renderItem}
@@ -68,7 +68,7 @@ export default function Listing({ navigation, filter, date }) {
           }
           }
           style={styles.container}
-        />}
+        /> : <Text>No data found</Text>}
     </SafeAreaView>
   );
 }
