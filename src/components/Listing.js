@@ -5,7 +5,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
-export default function Listing({ navigation, date, filter }) {
+export default function Listing({ navigation, filter, date }) {
   const [data, setData] = useState(null)
   const [key, setKey] = useState(null)
   function setupListListener() {
