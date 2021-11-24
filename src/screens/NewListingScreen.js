@@ -70,7 +70,7 @@ export default function NewListingScreen({ navigation }) {
         onChangeTitle('');
         onChangeHeader('');
         onChangeContent('');
-        navigation.navigate('Feed');
+        navigation.navigate('FeedScreen');
       }
     }
     return (
