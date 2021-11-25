@@ -11,7 +11,8 @@ import {
   Dashboard,
 } from './src/screens'
 import HomeScreen from './src/screens/HomeScreen';
-import FeedScreen from './src/screens/FeedScreen'
+import FeedScreen from './src/screens/FeedScreen';
+import ProfileScreen from './src/screens/ProfileScreen'
 import ListingPreviewScreen from './src/screens/ListingPreviewScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -72,6 +73,7 @@ export default function App() {
           <Stack.Screen name="FeedScreen" component={FeedScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="ListingPreview" component={ListingPreviewScreen} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

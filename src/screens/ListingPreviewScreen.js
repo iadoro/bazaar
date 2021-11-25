@@ -45,7 +45,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
         let commentNum = item.Key;
         return (
             <View style={styles.view}>
-                <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ProfileScreen', params: { name: name, email: email } }) }}>
+                <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ProfileScreen', route: { name: name, email: email } }) }}>
                     <Text style={styles.description}>{item.poster}: {item.comment}</Text>
                 </TouchableOpacity>
             </View >)

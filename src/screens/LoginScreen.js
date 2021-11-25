@@ -23,15 +23,15 @@ export default function LoginScreen({ navigation }) {
   const authenticate = () => {
     // TODO: Error handling with invalid name, email, and password
     // TODO: Set up API to handle authentication
-  setErrorMessage(null)
+    setErrorMessage(null)
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         var user = firebase.auth().currentUser;
-        if(user.emailVerified){
+        if (user.emailVerified) {
           onChangePassword('');
           navigation.navigate('HomeScreen');
         }
-        else{
+        else {
           setErrorMessage("Please check your email to verify your account");
         }
       })
@@ -40,11 +40,11 @@ export default function LoginScreen({ navigation }) {
       });
   }
 
-const forgotPassword = () => {
-  // TODO: Proper error handling with invalid email
-  setErrorMessage(null)
-  if (!email) setErrorMessage("Invalid email.")
-}
+  const forgotPassword = () => {
+    // TODO: Proper error handling with invalid email
+    setErrorMessage(null)
+    if (!email) setErrorMessage("Invalid email.")
+  }
 
   return (
     <Background>
@@ -68,6 +68,7 @@ const forgotPassword = () => {
         onChangeText={onChangePassword}
         secureTextEntry
       />
+      <Text>{errorMessage}</Text>
       <View style={styles.forgotPassword}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ResetPasswordScreen')}
