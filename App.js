@@ -12,6 +12,7 @@ import {
 } from './src/screens'
 import HomeScreen from './src/screens/HomeScreen';
 import FeedScreen from './src/screens/FeedScreen'
+import ListingPreviewScreen from './src/screens/ListingPreviewScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
@@ -70,6 +71,7 @@ export default function App() {
           <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
           <Stack.Screen name="FeedScreen" component={FeedScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="ListingPreview" component={ListingPreviewScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
