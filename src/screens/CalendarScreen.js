@@ -8,6 +8,7 @@ import { Text, DefaultContainer } from '../essentials/essentials'
 import Listing from '../components/Listing'
 import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
+import Listing from '../components/Listing'
 
 export default function CalendarScreen({ navigation }) {
     const [data, setData] = useState(null)
