@@ -8,6 +8,9 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { DefaultContainer } from '../essentials/essentials';
+import BackButton from '../components/BackButton'
+import Background from '../components/Background'
+
 
 export default function NewListingScreen({ navigation }) {
   const [title, onChangeTitle] = useState('')
@@ -75,6 +78,7 @@ export default function NewListingScreen({ navigation }) {
     }
   }
   return (
+    <Background>
     <View style={styles.container}>
       <ScrollView>
         <SafeAreaView>
@@ -116,6 +120,8 @@ export default function NewListingScreen({ navigation }) {
         </SafeAreaView>
       </ScrollView>
     </View>
+    </Background>
+    
   );
   //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
   //     <Text>New Listing!</Text>
@@ -130,8 +136,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 20,
-    marginRight: 20,
+    // marginLeft: 20,
+    // marginRight: 20,
   },
   input: {
     //height: 40,

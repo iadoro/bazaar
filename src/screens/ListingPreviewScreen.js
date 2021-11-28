@@ -89,6 +89,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
         < DefaultContainer >
             <ScrollView style={styles.scroll}>
                 <ComponentItem>
+                    <BackButton goBack={navigation.goBack} />
                     <Text style={styles.ListingTitle}>{!!(listingTitle) && listingTitle}</Text>
                     <Text style={styles.Header}>{!!(listingHeader) && listingHeader}</Text>
                     <TouchableOpacity style={styles.Header} onPress={() => { navigation.navigate({ name: 'ProfileScreen', params: { name: listingPoster, email: listingUser } }) }}>
@@ -132,7 +133,9 @@ export default function ListingPreviewScreen({ route, navigation }) {
                     </SafeAreaView>
                 </ComponentItem>
             </ScrollView>
+
         </DefaultContainer >
+        
     )
 }
 
