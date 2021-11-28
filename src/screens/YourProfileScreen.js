@@ -19,13 +19,13 @@ export default function YourProfileScreen({ props, navigation }) {
     const auth = firebase.auth();
     const [accName, setAccName] = useState(null);
     const [accEmail, setAccEmail] = useState(null);
-    const [emailSub, setEmailSub] = useState(null);
     auth.onAuthStateChanged(user => {
         if (user) {
             setAccName(user.displayName);
             setAccEmail(user.email);
-            setEmailSub(user.email.substr(0, accEmail.indexOf('@')))
-            setupBioListener()
+            setupListListener()
+            setupBioListener();
+
         } else {
         }
     });
@@ -39,7 +39,7 @@ export default function YourProfileScreen({ props, navigation }) {
         })
     }
     function setupBioListener() {
-        firebase.database().ref('/Profiles/' + emailSub).on('value', (snapshot) => {
+        firebase.database().ref('/Profiles/' + accEmail.substr(0, accEmail.indexOf('@'))).on('value', (snapshot) => {
             if (snapshot.val() != null) {
                 setBio(snapshot.val().bio)
                 setNewBio(snapshot.val().bio)
@@ -48,7 +48,7 @@ export default function YourProfileScreen({ props, navigation }) {
     }
 
     useEffect(() => {
-        setupListListener()
+
     }, [])
     function renderItem({ item }) {
         let itemKey = item.Key;
@@ -71,7 +71,7 @@ export default function YourProfileScreen({ props, navigation }) {
     }
 
     function submitNewBio() {
-        firebase.database().ref('/Profiles/' + emailSub).update({
+        firebase.database().ref('/Profiles/' + accEmail.substr(0, accEmail.indexOf('@'))).update({
             bio: newBio,
         })
     }
@@ -84,7 +84,6 @@ export default function YourProfileScreen({ props, navigation }) {
                 {editMode && <View><TextInput
                     style={styles.input}
                     onChangeText={(value) => {
-                        console.log(value)
                         setNewBio(value)
                     }}
                     value={newBio}
@@ -107,16 +106,20 @@ export default function YourProfileScreen({ props, navigation }) {
                 >
                     <Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text>
                 </TouchableOpacity>
-                {Array.isArray(data) &&
-                    <FlatList
-                        data={data.sort(SortingFunction)}
-                        renderItem={renderItem}
-                        keyExtractor={item => {
-                            return item.Key.toString();
-                        }
-                        }
-                        style={styles.list}
-                    />}
+                <View style={styles.list}>
+                    <ListingContainer>
+                        {Array.isArray(data) &&
+                            <FlatList
+                                data={data.sort(SortingFunction)}
+                                renderItem={renderItem}
+                                keyExtractor={item => {
+                                    return item.Key.toString();
+                                }
+                                }
+
+                            />}
+                    </ListingContainer>
+                </View>
             </View>
         </View>
 
@@ -140,7 +143,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     input: {
-        //height: 40,
         margin: 12,
         borderWidth: 1,
         padding: 10,

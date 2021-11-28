@@ -7,11 +7,12 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { ListingContainer } from '../essentials/essentials';
+import { List } from 'react-native-feather';
 
 export default function ProfileScreen({ route, navigation }) {
 
-    const { name } = route.params;
-    const { email } = route.params;
+    const { name } = route;
+    const { email } = route;
     const [data, setData] = useState(null)
     const [bio, setBio] = useState(null)
     const [editMode, setEditMode] = useState(false);
@@ -106,16 +107,20 @@ export default function ProfileScreen({ route, navigation }) {
 
                     style={styles.editButton}
                 ><Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text></TouchableOpacity>}
-                {Array.isArray(data) &&
-                    <FlatList
-                        data={data.sort(SortingFunction)}
-                        renderItem={renderItem}
-                        keyExtractor={item => {
-                            return item.Key.toString();
-                        }
-                        }
-                        style={styles.container}
-                    />}
+                <View>
+                    <ListingContainer>
+                        {Array.isArray(data) &&
+                            <FlatList
+                                data={data.sort(SortingFunction)}
+                                renderItem={renderItem}
+                                keyExtractor={item => {
+                                    return item.Key.toString();
+                                }
+                                }
+                                style={styles.container}
+                            />}
+                    </ListingContainer>
+                </View>
             </View>
         </View>
 
@@ -127,7 +132,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
     },
     list: {
-        flex: .9,
+        marginBottom: 50,
+        marginTop: 12,
         width: Dimensions.get('window').width,
     },
     editButton: {

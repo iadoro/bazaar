@@ -59,24 +59,50 @@ function SearchContainer(props) {
 }
 
 export default function FeedScreen({ navigation }) {
-    const [topic, onSearchTopic] = useState('Search')
+    const [topic, onSearchTopic] = useState('')
 
     return (
-        <DefaultContainer>
-            <Banner flex={0.01} width={'auto'}>
+        <View style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Banner flex={0.01} width={'auto'}> 
                 {/* <TouchableHighlight> */}
                 {/* <ChevronLeft style={{color: 'db6b5c'}}/> */}
                 {/* </TouchableHighlight> */}
                 {/* <SmallLogo flex={2}></SmallLogo> */}
                 {/* <ChevronLeft style={{opacity: 0}}/> */}
             </Banner>
-            <SearchContainer onChangeText={onSearchTopic} />
-            <ScrollView style={styles.list}>
-
-                <Listing navigation={navigation} />
-
-            </ScrollView>
-        </DefaultContainer>
+            <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 320
+          }}>
+            <TextInput 
+            style={{
+              height: 40,
+              margin: 12,
+              borderWidth: 1,
+              borderRadius: 5,
+              borderColor: 'lightgray',
+              padding: 10,
+              width: 300,
+              flex: 4,
+              backgroundColor: 'rgb(242, 242, 247)'
+            }}
+            onChangeText={onSearchTopic}
+            placeholder="Search Feed" 
+            value={topic} />
+          </View>
+            <ComponentItem>
+                <ListingContainer>
+                    <Listing navigation={navigation} filter={topic}/>
+                </ListingContainer>
+            </ComponentItem>
+        </View>
     );
     // return (
     //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -93,6 +119,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     list: {
-        marginTop: 40,
+        marginTop: 30,
     },
 });
