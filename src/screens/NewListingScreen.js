@@ -7,6 +7,7 @@ import moment from 'moment';
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
+import { DefaultContainer } from '../essentials/essentials';
 
 export default function NewListingScreen({ navigation }) {
   const [title, onChangeTitle] = useState('')
@@ -124,11 +125,13 @@ export default function NewListingScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: 40,
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 20,
+    marginRight: 20,
   },
   input: {
     //height: 40,

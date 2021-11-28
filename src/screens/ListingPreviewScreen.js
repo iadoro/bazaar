@@ -9,9 +9,12 @@ import CalendarScreen from './CalendarScreen'
 import YourProfileScreen from './YourProfileScreen'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ComponentItem } from '../essentials/essentials';
+import { ComponentItem, DefaultContainer } from '../essentials/essentials';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
+import HomeScreen from './HomeScreen';
+import BackButton from '../components/BackButton'
+
 
 export default function ListingPreviewScreen({ route, navigation }) {
     useEffect(() => {
@@ -83,7 +86,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
         }
     }
     return (
-        < View >
+        < DefaultContainer >
             <ScrollView style={styles.scroll}>
                 <ComponentItem>
                     <Text style={styles.ListingTitle}>{!!(listingTitle) && listingTitle}</Text>
@@ -129,7 +132,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
                     </SafeAreaView>
                 </ComponentItem>
             </ScrollView>
-        </View >
+        </DefaultContainer >
     )
 }
 
@@ -149,7 +152,7 @@ const styles = StyleSheet.create({
         fontWeight: "normal",
         textAlign: "left",
         backgroundColor: "transparent",
-        marginTop: 40,
+        marginTop: 100,
     },
     Header: {
         left: 15,
