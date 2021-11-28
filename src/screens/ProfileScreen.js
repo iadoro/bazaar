@@ -11,8 +11,9 @@ import { List } from 'react-native-feather';
 
 export default function ProfileScreen({ route, navigation }) {
 
-    const { name } = route;
-    const { email } = route;
+    const { name } = route.params;
+    const { email } = route.params;
+    const { emailSub } = route.params
     const [data, setData] = useState(null)
     const [bio, setBio] = useState(null)
     const [editMode, setEditMode] = useState(false);
@@ -40,7 +41,7 @@ export default function ProfileScreen({ route, navigation }) {
         })
     }
     function setupBioListener() {
-        firebase.database().ref('/Profiles/' + email.substr(0, email.indexOf('@'))).on('value', (snapshot) => {
+        firebase.database().ref('/Profiles/' + emailSub).on('value', (snapshot) => {
             if (snapshot.val() != null) {
                 setBio(snapshot.val().bio)
                 setNewBio(snapshot.val().bio)
@@ -73,7 +74,7 @@ export default function ProfileScreen({ route, navigation }) {
     }
 
     function submitNewBio() {
-        firebase.database().ref('/Profiles/' + email.substr(0, email.indexOf('@'))).update({
+        firebase.database().ref('/Profiles/' + emailSub).update({
             bio: newBio,
         })
     }

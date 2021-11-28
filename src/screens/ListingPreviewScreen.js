@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app';
 import React, { useEffect, useState } from "react"
 import { Animated, FlatList, SafeAreaView, ScrollView, Image, StyleSheet, Text, View, Button } from "react-native"
-import { TextInput } from 'react-native-gesture-handler';
+import TextInput from '../components/TextInput'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedScreen from './FeedScreen'
 import NewListingScreen from './NewListingScreen'
@@ -60,7 +60,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
         let commentNum = item.Key;
         return (
             <View style={styles.view}>
-                <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ProfileScreen', route: { name: name, email: email } }) }}>
+                <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ProfileScreen', route: { name: item.poster, email: item.posterEmail, emailSub: item.posterEmail.substring(0, item.posterEmail.indexOf("@")) } }) }}>
                     <Text style={styles.description}>{item.poster}: {item.comment}</Text>
                 </TouchableOpacity>
             </View >)
@@ -83,59 +83,58 @@ export default function ListingPreviewScreen({ route, navigation }) {
                 poster: name,
                 Key: commentsNum
             })
+            setNewComment('');
         }
     }
     return (
-        < DefaultContainer >
+        < View >
             <ScrollView style={styles.scroll}>
-                <ComponentItem>
-                    <BackButton goBack={navigation.goBack} />
-                    <Text style={styles.ListingTitle}>{!!(listingTitle) && listingTitle}</Text>
-                    <Text style={styles.Header}>{!!(listingHeader) && listingHeader}</Text>
-                    <TouchableOpacity style={styles.Header} onPress={() => { navigation.navigate({ name: 'ProfileScreen', params: { name: listingPoster, email: listingUser } }) }}>
-                        <Text >Post by: {listingPoster}</Text>
-                    </TouchableOpacity>
-                    {listingPoster == name && <Button
+                <BackButton goBack={navigation.goBack} />
+                <Text style={styles.ListingTitle}>{!!(listingTitle) && listingTitle}</Text>
+                <Text style={styles.Header}>{!!(listingHeader) && listingHeader}</Text>
+                <TouchableOpacity style={styles.Header} onPress={() => { navigation.navigate({ name: 'ProfileScreen', params: { name: listingPoster, email: listingUser } }) }}>
+                    <Text >Post by: {listingPoster}</Text>
+                </TouchableOpacity>
+                {listingPoster == name && <Button
+                    onPress={() => {
+                        firebase.database().ref('listings/' + route.params.key).remove()
+                        navigation.navigate('FeedScreen');
+                    }}
+                    title="Delete" />}
+                <Text></Text>
+                <Text style={styles.Content}>
+                    {!!(listingContent) && listingContent}
+                </Text>
+                <SafeAreaView>
+                    {Array.isArray(comments) &&
+                        <FlatList
+                            data={comments.sort(SortingFunction)}
+                            renderItem={renderItem}
+                            keyExtractor={item => {
+                                return item.Key.toString();
+                            }
+                            }
+                            style={styles.container}
+                        />}
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setNewComment}
+                        value={newComment}
+                        placeholder="Enter Comment Here"
+                    />
+                    <Button
                         onPress={() => {
-                            firebase.database().ref('listings/' + route.params.key).remove()
-                            navigation.navigate('FeedScreen');
+                            submit();
                         }}
-                        title="Delete" />}
-                    <Text></Text>
-                    <Text style={styles.Content}>
-                        {!!(listingContent) && listingContent}
-                    </Text>
-                    <SafeAreaView>
-                        {Array.isArray(comments) &&
-                            <FlatList
-                                data={comments.sort(SortingFunction)}
-                                renderItem={renderItem}
-                                keyExtractor={item => {
-                                    return item.Key.toString();
-                                }
-                                }
-                                style={styles.container}
-                            />}
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={setNewComment}
-                            value={newComment}
-                            placeholder="Enter Comment Here"
-                        />
-                        <Button
-                            onPress={() => {
-                                submit();
-                            }}
-                            title="Submit Comment"
-                            color="#db6b5c"
-                            style={styles.submit}
-                        />
-                    </SafeAreaView>
-                </ComponentItem>
+                        title="Submit Comment"
+                        color="#db6b5c"
+                        style={styles.submit}
+                    />
+                </SafeAreaView>
             </ScrollView>
 
-        </DefaultContainer >
-        
+        </View >
+
     )
 }
 

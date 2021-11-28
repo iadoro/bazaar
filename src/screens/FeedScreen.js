@@ -5,7 +5,7 @@ import { ScrollView, TextInput, TouchableHighlight } from 'react-native-gesture-
 import { Row, Text, Banner, Header, DefaultContainer, ComponentItem, ListingContainer, SmallLogo } from '../essentials/essentials';
 import Listing from '../components/Listing';
 import styled from 'styled-components/native';
-
+import firebase from 'firebase/compat/app'
 
 function SearchBar(props) {
     const Container = styled.View`
@@ -60,6 +60,20 @@ function SearchContainer(props) {
 
 export default function FeedScreen({ navigation }) {
     const [topic, onSearchTopic] = useState('')
+    const [name, setName] = useState();
+    const [email, setEmail] = useState();
+    const [emailSub, setEmailSub] = useState();
+
+    // Handle user state changes
+    const auth = firebase.auth();
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            setName(user.displayName);
+            setEmail(user.email);
+            setEmailSub(user.email.substring(0, user.email.indexOf('@')))
+        }
+        else { }
+    });
 
     return (
         <View style={{
@@ -70,36 +84,39 @@ export default function FeedScreen({ navigation }) {
             // flexDirection: 'column',
             // justifyContent: 'space-around'
             // justifyContent: 'center'
-          }}>
+        }}>
             <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 350
-          }}>
-            <TextInput 
-            style={{
-              height: 40,
-              borderWidth: 1,
-              borderRadius: 5,
-              borderColor: 'lightgray',
-              padding: 10,
-              width: 300,
-              flex: 4,
-              backgroundColor: 'rgb(242, 242, 247)'
-            }}
-            onChangeText={onSearchTopic}
-            placeholder="Search Feed" 
-            value={topic} />
-          </View>
-            <View
-            style = {{
-                width: "98%",
-                height: "100%"
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 350
             }}>
-                <Listing navigation={navigation} filter={topic}/>
+                <TextInput
+                    style={{
+                        height: 40,
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        borderColor: 'lightgray',
+                        padding: 10,
+                        width: 300,
+                        flex: 4,
+                        backgroundColor: 'rgb(242, 242, 247)'
+                    }}
+                    onChangeText={onSearchTopic}
+                    placeholder="Search Feed"
+                    value={topic} />
             </View>
-        </View>
+            <Button onPress={() => { navigation.navigate("ProfileScreen", { name: name, email: email, emailSub: emailSub }) }}
+                title="View your Profile"
+                color="#db6b5c" />
+            <View
+                style={{
+                    width: "98%",
+                    height: "100%"
+                }}>
+                <Listing navigation={navigation} filter={topic} />
+            </View>
+        </View >
     );
     // return (
     //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -118,4 +135,4 @@ const styles = StyleSheet.create({
     list: {
         marginTop: 30,
     },
-});
+})
