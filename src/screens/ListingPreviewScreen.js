@@ -2,6 +2,12 @@ import firebase from 'firebase/compat/app';
 import React, { useEffect, useState } from "react"
 import { Animated, FlatList, SafeAreaView, ScrollView, Image, StyleSheet, Text, View, Button } from "react-native"
 import { TextInput } from 'react-native-gesture-handler';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import FeedScreen from './FeedScreen'
+import NewListingScreen from './NewListingScreen'
+import CalendarScreen from './CalendarScreen'
+import YourProfileScreen from './YourProfileScreen'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ComponentItem } from '../essentials/essentials';
 import 'firebase/compat/firestore';
@@ -17,18 +23,24 @@ export default function ListingPreviewScreen({ route, navigation }) {
     const [comments, setComments] = useState(null)
     const [commentsNum, setCommentsNum] = useState(null)
     const [newComment, setNewComment] = useState(null)
-    const [listingAuthor, setListingAuthor] = useState(null)
-    const [listingAuthorEmail, setListingAuthorEmail] = useState(null)
+    const [listingUser, setUser] = useState(null);
+    const [listingPoster, setPoster] = useState(null);
+    const [listingDate, setDate] = useState(null);
+    const Tab = createBottomTabNavigator();
 
     function setupListingListener(listingID) {
         firebase.database().ref('listings/' + listingID).on('value', (snapshot) => {
-            setTitle(snapshot.val().Title)
-            setContent(snapshot.val().Content)
-            setHeader(snapshot.val().Header)
-            setComments(snapshot.val().comments)
-            setCommentsNum(snapshot.val().CommentsNum)
-            setListingAuthor(snapshot.val().Poster)
-            setListingAuthorEmail(snapshot.val().User)
+            if (snapshot.val() != null) {
+                setTitle(snapshot.val().Title)
+                setContent(snapshot.val().Content)
+                setHeader(snapshot.val().Header)
+                setUser(snapshot.val().User)
+                setPoster(snapshot.val().Poster)
+                setDate(snapshot.val().Date)
+                setComments(snapshot.val().comments)
+                setCommentsNum(snapshot.val().CommentsNum)
+
+            }
         })
     }
     const auth = firebase.auth();
@@ -76,9 +88,15 @@ export default function ListingPreviewScreen({ route, navigation }) {
                 <ComponentItem>
                     <Text style={styles.ListingTitle}>{!!(listingTitle) && listingTitle}</Text>
                     <Text style={styles.Header}>{!!(listingHeader) && listingHeader}</Text>
-                    <TouchableOpacity style={styles.Header} onPress={() => { navigation.navigate({ name: 'ProfileScreen', params: { name: listingAuthor, email: listingAuthorEmail } }) }}>
-                        <Text >Post by: {listingAuthor}</Text>
+                    <TouchableOpacity style={styles.Header} onPress={() => { navigation.navigate({ name: 'ProfileScreen', params: { name: listingPoster, email: listingUser } }) }}>
+                        <Text >Post by: {listingPoster}</Text>
                     </TouchableOpacity>
+                    {listingPoster == name && <Button
+                        onPress={() => {
+                            firebase.database().ref('listings/' + route.params.key).remove()
+                            navigation.navigate('FeedScreen');
+                        }}
+                        title="Delete" />}
                     <Text></Text>
                     <Text style={styles.Content}>
                         {!!(listingContent) && listingContent}
@@ -117,7 +135,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
     scroll: {
-        marginBottom: 270,
+        marginBottom: 50,
     },
     navbar: {
         flex: 1,

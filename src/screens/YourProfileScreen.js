@@ -19,10 +19,12 @@ export default function YourProfileScreen({ props, navigation }) {
     const auth = firebase.auth();
     const [accName, setAccName] = useState(null);
     const [accEmail, setAccEmail] = useState(null);
+    const [emailSub, setEmailSub] = useState(null);
     auth.onAuthStateChanged(user => {
         if (user) {
             setAccName(user.displayName);
             setAccEmail(user.email);
+            setEmailSub(user.email.substr(0, accEmail.indexOf('@')))
             setupBioListener()
         } else {
         }
@@ -37,7 +39,7 @@ export default function YourProfileScreen({ props, navigation }) {
         })
     }
     function setupBioListener() {
-        firebase.database().ref('/Profiles/' + accEmail.substr(0, accEmail.indexOf('@'))).on('value', (snapshot) => {
+        firebase.database().ref('/Profiles/' + emailSub).on('value', (snapshot) => {
             if (snapshot.val() != null) {
                 setBio(snapshot.val().bio)
                 setNewBio(snapshot.val().bio)
@@ -69,7 +71,7 @@ export default function YourProfileScreen({ props, navigation }) {
     }
 
     function submitNewBio() {
-        firebase.database().ref('/Profiles/' + accEmail.substr(0, accEmail.indexOf('@'))).update({
+        firebase.database().ref('/Profiles/' + emailSub).update({
             bio: newBio,
         })
     }
@@ -105,19 +107,16 @@ export default function YourProfileScreen({ props, navigation }) {
                 >
                     <Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text>
                 </TouchableOpacity>
-                <ListingContainer>
-                    <Text></Text>
-                    {Array.isArray(data) &&
-                        <FlatList
-                            data={data.sort(SortingFunction)}
-                            renderItem={renderItem}
-                            keyExtractor={item => {
-                                return item.Key.toString();
-                            }
-                            }
-                            style={styles.container}
-                        />}
-                </ListingContainer>
+                {Array.isArray(data) &&
+                    <FlatList
+                        data={data.sort(SortingFunction)}
+                        renderItem={renderItem}
+                        keyExtractor={item => {
+                            return item.Key.toString();
+                        }
+                        }
+                        style={styles.list}
+                    />}
             </View>
         </View>
 
@@ -129,8 +128,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
     },
     list: {
-        flex: .9,
-        width: Dimensions.get('window').width,
+        marginTop: 20,
+        marginBottom: 50,
     },
     editButton: {
         backgroundColor: '#87CEEB',
@@ -158,8 +157,12 @@ const styles = StyleSheet.create({
         marginRight: 118,
     },
     container: {
-        marginTop: 100,
+        marginTop: 30,
         marginBottom: Dimensions.get('window').height - 190,
+    },
+    list: {
+        marginTop: 20,
+        marginBottom: Dimensions.get('window').height - 50,
     },
     item: {
         marginLeft: 10,
