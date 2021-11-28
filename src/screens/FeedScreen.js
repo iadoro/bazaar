@@ -13,16 +13,12 @@ export default function FeedScreen({ navigation }) {
         <View style={{
             flex: 1,
             backgroundColor: '#fff',
+            paddingTop: 20,
             alignItems: 'center',
-            justifyContent: 'center'
+            // flexDirection: 'column',
+            // justifyContent: 'space-around'
+            // justifyContent: 'center'
           }}>
-            <Banner flex={0.01} width={'auto'}> 
-                {/* <TouchableHighlight> */}
-                {/* <ChevronLeft style={{color: 'db6b5c'}}/> */}
-                {/* </TouchableHighlight> */}
-                {/* <SmallLogo flex={2}></SmallLogo> */}
-                {/* <ChevronLeft style={{opacity: 0}}/> */}
-            </Banner>
             <View style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -32,7 +28,6 @@ export default function FeedScreen({ navigation }) {
             <TextInput 
             style={{
               height: 40,
-              margin: 12,
               borderWidth: 1,
               borderRadius: 5,
               borderColor: 'lightgray',
@@ -45,11 +40,13 @@ export default function FeedScreen({ navigation }) {
             placeholder="Search Feed" 
             value={topic} />
           </View>
-            <ComponentItem>
-                <ListingContainer>
-                    <Listing navigation={navigation} filter={topic}/>
-                </ListingContainer>
-            </ComponentItem>
+            <View
+            style = {{
+                width: "98%",
+                height: "100%"
+            }}>
+                <Listing navigation={navigation} filter={topic}/>
+            </View>
         </View>
     );
     // return (
