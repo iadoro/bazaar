@@ -75,7 +75,7 @@ export default function FeedScreen({ navigation }) {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            width: 320
+            width: 350
           }}>
             <TextInput 
             style={{
