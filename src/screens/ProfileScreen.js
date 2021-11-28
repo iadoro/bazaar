@@ -106,18 +106,16 @@ export default function ProfileScreen({ route, navigation }) {
 
                     style={styles.editButton}
                 ><Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text></TouchableOpacity>}
-                <ListingContainer>
-                    {Array.isArray(data) &&
-                        <FlatList
-                            data={data.sort(SortingFunction)}
-                            renderItem={renderItem}
-                            keyExtractor={item => {
-                                return item.Key.toString();
-                            }
-                            }
-                            style={styles.container}
-                        />}
-                </ListingContainer>
+                {Array.isArray(data) &&
+                    <FlatList
+                        data={data.sort(SortingFunction)}
+                        renderItem={renderItem}
+                        keyExtractor={item => {
+                            return item.Key.toString();
+                        }
+                        }
+                        style={styles.container}
+                    />}
             </View>
         </View>
 
@@ -158,7 +156,7 @@ const styles = StyleSheet.create({
         marginRight: 118,
     },
     container: {
-        marginTop: 100,
+        marginTop: 30,
         marginBottom: Dimensions.get('window').height - 190,
     },
     item: {

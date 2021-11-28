@@ -1,7 +1,7 @@
 import { View, Image, Button, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { TextInput, TouchableHighlight } from 'react-native-gesture-handler';
+import { ScrollView, TextInput, TouchableHighlight } from 'react-native-gesture-handler';
 import { Row, Text, Banner, Header, DefaultContainer, ComponentItem, ListingContainer, SmallLogo } from '../essentials/essentials';
 import Listing from '../components/Listing';
 import styled from 'styled-components/native';
@@ -71,11 +71,11 @@ export default function FeedScreen({ navigation }) {
                 {/* <ChevronLeft style={{opacity: 0}}/> */}
             </Banner>
             <SearchContainer onChangeText={onSearchTopic} />
-            <ComponentItem>
-                <ListingContainer>
-                    <Listing navigation={navigation} />
-                </ListingContainer>
-            </ComponentItem>
+            <ScrollView style={styles.list}>
+
+                <Listing navigation={navigation} />
+
+            </ScrollView>
         </DefaultContainer>
     );
     // return (
@@ -91,5 +91,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    list: {
+        marginTop: 40,
     },
 });

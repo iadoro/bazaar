@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedScreen from './FeedScreen'
 import NewListingScreen from './NewListingScreen'
 import CalendarScreen from './CalendarScreen'
-import ProfileScreen from './ProfileScreen'
 import YourProfileScreen from './YourProfileScreen'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
