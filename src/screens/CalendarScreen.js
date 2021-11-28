@@ -7,6 +7,7 @@ import firebase from 'firebase/compat/app'
 import { Text, DefaultContainer } from '../essentials/essentials'
 import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
+import BackButton from '../components/BackButton'
 
 export default function CalendarScreen({ navigation }) {
     const [data, setData] = useState(null)
@@ -54,6 +55,7 @@ export default function CalendarScreen({ navigation }) {
   
     return (
         <DefaultContainer>
+          <BackButton goBack={navigation.goBack} />
           <Text>Calendar</Text>
           <Calendar
             theme={{
