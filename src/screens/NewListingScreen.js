@@ -102,7 +102,7 @@ export default function NewListingScreen({ navigation }) {
             placeholder="Enter event/item information here"
             multiline
           />
-          <Text>{!!(errorMessage) & errorMessage}</Text>
+          {!!(errorMessage) && <Text>{errorMessage}</Text>}
           <Button
             onPress={() => {
               console.log("On Press");

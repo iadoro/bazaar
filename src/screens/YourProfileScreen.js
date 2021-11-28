@@ -83,7 +83,6 @@ export default function YourProfileScreen({ props, navigation }) {
                 {editMode && <View><TextInput
                     style={styles.input}
                     onChangeText={(value) => {
-                        console.log(value)
                         setNewBio(value)
                     }}
                     value={newBio}
@@ -106,16 +105,20 @@ export default function YourProfileScreen({ props, navigation }) {
                 >
                     <Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text>
                 </TouchableOpacity>
-                {Array.isArray(data) &&
-                    <FlatList
-                        data={data.sort(SortingFunction)}
-                        renderItem={renderItem}
-                        keyExtractor={item => {
-                            return item.Key.toString();
-                        }
-                        }
-                        style={styles.list}
-                    />}
+                <View style={styles.list}>
+                    <ListingContainer>
+                        {Array.isArray(data) &&
+                            <FlatList
+                                data={data.sort(SortingFunction)}
+                                renderItem={renderItem}
+                                keyExtractor={item => {
+                                    return item.Key.toString();
+                                }
+                                }
+
+                            />}
+                    </ListingContainer>
+                </View>
             </View>
         </View>
 

@@ -6,13 +6,13 @@ export function Row(props) {
 
   return (
     <View style={{ flexDirection: 'row' }}>
-      { props.children }
+      {props.children}
     </View>
   );
 }
 
 export function Text(props) {
-  
+
   const Text = styled.Text`
     font-size: ${props.size ? props.size + "px" : "12px"};
     color: ${props.color ? props.color : 'black'};
@@ -21,7 +21,7 @@ export function Text(props) {
 
   return (
     <Text>
-      { props.children }
+      {props.children}
     </Text>
   );
 }
@@ -36,7 +36,7 @@ export function DefaultContainer(props) {
 
   return (
     <Container>
-      { props.children }
+      {props.children}
     </Container>
   )
 }
@@ -50,7 +50,7 @@ export function PageContainer(props) {
 
   return (
     <Container>
-      { props.children }
+      {props.children}
     </Container>
   )
 }
@@ -65,12 +65,12 @@ export function Header(props) {
 
   return (
     <Header>
-      { props.children }
+      {props.children}
     </Header>
   )
 }
 
-export function Banner(props){
+export function Banner(props) {
   const Banner = styled.View`
     flex-direction: ${props.direction ? props.direction : 'row'};
     align-items: ${props.align ? props.align : 'center'};
@@ -83,7 +83,7 @@ export function Banner(props){
   `;
 
   return (
-    <Banner>  
+    <Banner>
       {props.children}
     </Banner>
   )
@@ -92,14 +92,14 @@ export function Banner(props){
 export function ListingContainer(props) {
   const Container = styled.View`
     position: ${props.position ? props.position : 'absolute'};
-    right: ${props.right ? props.right : 0};
+    left: ${props.right ? props.right : 0};
     justifyContent: ${props.justify ? props.justify : 'flex-start'};
     alignItems: ${props.align ? props.align : 'flex-start'};
   `;
 
   return (
     <Container>
-        {props.children}
+      {props.children}
     </Container>
   )
 }
@@ -136,7 +136,7 @@ export function FieldItem(props) {
   const Container = styled.View`
     flex: ${props.flex ? props.flex : 1};
     width: ${props.width ? props.width : '100%'};
-    padding: ${props.padding ? props.padding +'px' : '`200px`'};
+    padding: ${props.padding ? props.padding + 'px' : '`200px`'};
   `;
 
   return (
