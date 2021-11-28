@@ -19,12 +19,13 @@ export default function YourProfileScreen({ props, navigation }) {
     const auth = firebase.auth();
     const [accName, setAccName] = useState(null);
     const [accEmail, setAccEmail] = useState(null);
-    const [emailSub, setEmailSub] = useState(null);
     auth.onAuthStateChanged(user => {
         if (user) {
             setAccName(user.displayName);
             setAccEmail(user.email);
-            setupBioListener()
+            setupListListener()
+            setupBioListener();
+
         } else {
         }
     });
@@ -47,7 +48,7 @@ export default function YourProfileScreen({ props, navigation }) {
     }
 
     useEffect(() => {
-        setupListListener()
+
     }, [])
     function renderItem({ item }) {
         let itemKey = item.Key;
@@ -142,7 +143,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     input: {
-        //height: 40,
         margin: 12,
         borderWidth: 1,
         padding: 10,

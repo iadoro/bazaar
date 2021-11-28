@@ -11,8 +11,8 @@ import { List } from 'react-native-feather';
 
 export default function ProfileScreen({ route, navigation }) {
 
-    const { name } = route.params;
-    const { email } = route.params;
+    const { name } = route;
+    const { email } = route;
     const [data, setData] = useState(null)
     const [bio, setBio] = useState(null)
     const [editMode, setEditMode] = useState(false);
