@@ -12,7 +12,7 @@ function SearchBar(props) {
     flexDirection: row;
     alignItems: center;
     justifyContent: center;
-    width: ${props.containerWidth ? props.containerWidth : '320'};
+    width: ${props.containerWidth ? props.containerWidth : '350'};
     `;
     const Input = styled.TextInput`
     height: ${props.height ? props.height + 'px' : '40px'};
