@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
-import { TextInput } from 'react-native-gesture-handler';
+import TextInput from '../components/TextInput'
 import { SafeAreaView, StyleSheet, Text, View, ScrollView, Button } from 'react-native';
 import moment from 'moment';
 import firebase from 'firebase/compat/app'
@@ -42,7 +42,7 @@ export default function NewListingScreen({ navigation }) {
 
   const submit = () => {
     console.log("Submit button pressed")
-    const validHeaders = ["Event", "Free Item", "Barter Item"]
+    const validHeaders = ["Event", "Free Item", "Barter Item", "event", "Free item", "free item", "Barter item", 'barter item']
     console.log("before if statements")
     if (!title || !header || !content || (header == "Event" && date == null)) {
       console.log("Error message1")
@@ -93,7 +93,7 @@ export default function NewListingScreen({ navigation }) {
               style={styles.input}
               onChangeText={onChangeHeader}
               value={header}
-              placeholder="Enter event/item type here (event/free item/barter item)"
+              placeholder="event/free item/barter item"
             />
             {header == "Event" && <TextInput
               style={styles.input}
