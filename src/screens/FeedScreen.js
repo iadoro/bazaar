@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     list: {
-        marginTop: 5,
+        marginTop: 30,
         marginRight: 10,
     },
 });
