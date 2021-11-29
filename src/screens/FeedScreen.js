@@ -10,51 +10,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { User } from 'react-native-feather';
 
-function SearchBar(props) {
-    const Container = styled.View`
-    flexDirection: row;
-    alignItems: center;
-    justifyContent: center;
-    width: ${props.containerWidth ? props.containerWidth : '350'};
-    `;
-    const Input = styled.TextInput`
-    height: ${props.height ? props.height + 'px' : '40px'};
-    margin: ${props.margin ? props.margin + 'px' : '12px'};
-    marginRight: ${props.marginRight ? props.marginRight + 'px' : '0px'};
-    borderWidth: ${props.borderWidth ? props.borderWidth + 'px' : '1px'};
-    borderRadius: ${props.borderRadius ? props.borderRadius + 'px' : '5px'};
-    borderColor: ${props.borderColor ? props.borderColor : 'lightgray'};
-    padding: ${props.padding ? props.padding + 'px' : '10px'};
-    width: ${props.inputWidth ? props.inputWidth + 'px' : '300px'};
-    flex: ${props.flex ? props.flex : '4'};
-    backgroundColor: ${props.backgroundColor ? props.backgroundColor : 'rgb(242, 242, 247)'};
-    `;
-    return (
-        <Container>
-            <Input onChangeText={props.onChangeText ? props.onChangeText : null}
-                placeholder={props.placeholder ? props.placeholder : "Search Feed"}>
-            </Input>
-            {props.children}
-        </Container>
-    )
-}
-function SearchContainer(props) {
-    const Container = styled.View`
-    flex: ${props.flex ? props.flex : 0.05};
-    flexDirection: ${props.direction ? props.direction : 'row'};
-    width: ${props.width ? props.width : '92%'};
-    alignItems: ${props.align ? props.align : 'center'};
-    justifyContent: ${props.justify ? props.justify : 'space-between'};
-    `;
-    const onChangeText = props.onChangeText ? props.onChangeText : null;
-    return (
-        <Container>
-            <SearchBar onChangeText={onChangeText}>
-            </SearchBar>
-            {props.children}
-        </Container>
-    )
-}
+
 export default function FeedScreen({ navigation }) {
     const [topic, onSearchTopic] = useState('')
     const auth = firebase.auth();
@@ -69,6 +25,53 @@ export default function FeedScreen({ navigation }) {
         } else {
         }
     });
+
+    function SearchBar(props) {
+        const Container = styled.View`
+        flexDirection: row;
+        alignItems: center;
+        justifyContent: center;
+        width: ${props.containerWidth ? props.containerWidth : '350'};
+        `;
+        const Input = styled.TextInput`
+        height: ${props.height ? props.height + 'px' : '40px'};
+        margin: ${props.margin ? props.margin + 'px' : '12px'};
+        marginRight: ${props.marginRight ? props.marginRight + 'px' : '0px'};
+        borderWidth: ${props.borderWidth ? props.borderWidth + 'px' : '1px'};
+        borderRadius: ${props.borderRadius ? props.borderRadius + 'px' : '5px'};
+        borderColor: ${props.borderColor ? props.borderColor : 'lightgray'};
+        padding: ${props.padding ? props.padding + 'px' : '10px'};
+        width: ${props.inputWidth ? props.inputWidth + 'px' : '300px'};
+        flex: ${props.flex ? props.flex : '4'};
+        backgroundColor: ${props.backgroundColor ? props.backgroundColor : 'rgb(242, 242, 247)'};
+        `;
+        return (
+            <Container>
+                <Input onChangeText={(value) => { onSearchTopic(value) }}
+                    value={topic}
+                    placeholder={props.placeholder ? props.placeholder : "Search Feed"}>
+                </Input>
+                {props.children}
+            </Container>
+        )
+    }
+    function SearchContainer(props) {
+        const Container = styled.View`
+        flex: ${props.flex ? props.flex : 0.05};
+        flexDirection: ${props.direction ? props.direction : 'row'};
+        width: ${props.width ? props.width : '92%'};
+        alignItems: ${props.align ? props.align : 'center'};
+        justifyContent: ${props.justify ? props.justify : 'space-between'};
+        `;
+        const onChangeText = props.onChangeText ? props.onChangeText : null;
+        return (
+            <Container>
+                <SearchBar>
+                </SearchBar>
+                {props.children}
+            </Container>
+        )
+    }
     return (
 
         <View style={{
@@ -89,20 +92,7 @@ export default function FeedScreen({ navigation }) {
                 justifyContent: 'center',
                 width: 320
             }}>
-                <TextInput
-                    style={{
-                        height: 40,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        borderColor: 'lightgray',
-                        padding: 10,
-                        width: 300,
-                        flex: 4,
-                        backgroundColor: 'rgb(242, 242, 247)'
-                    }}
-                    onChangeText={onSearchTopic}
-                    placeholder="Search Feed"
-                    value={topic} />
+
             </View>
             <View
                 style={{
@@ -118,6 +108,20 @@ export default function FeedScreen({ navigation }) {
     //     <Text>Feed!</Text>
     //   </View>
     // )
+    /*<SearchContainer
+                    style={{
+                        height: 40,
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        borderColor: 'lightgray',
+                        padding: 10,
+                        width: 300,
+                        flex: 4,
+                        backgroundColor: 'rgb(242, 242, 247)'
+                    }}
+                    onChangeText={onSearchTopic}
+                    placeholder="Search Feed"
+                    value={topic} />*/
 }
 const styles = StyleSheet.create({
     container: {
@@ -128,6 +132,5 @@ const styles = StyleSheet.create({
     },
     list: {
         marginTop: 30,
-        marginRight: 10,
     },
 });

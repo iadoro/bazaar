@@ -28,6 +28,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
     const [newComment, setNewComment] = useState(null)
     const [listingUser, setUser] = useState(null);
     const [listingPoster, setPoster] = useState(null);
+    const [listingPosterSub, setListingPosterSub] = useState(null);
     const [listingDate, setDate] = useState(null);
     const Tab = createBottomTabNavigator();
 
@@ -42,7 +43,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
                 setDate(snapshot.val().Date)
                 setComments(snapshot.val().comments)
                 setCommentsNum(snapshot.val().CommentsNum)
-
+                setListingPosterSub(snapshot.val().User.substring(0, snapshot.val().User.indexOf('@')))
             }
         })
     }
@@ -98,7 +99,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
                 <BackButton goBack={navigation.goBack} />
                 <Text style={styles.ListingTitle}>{!!(listingTitle) && listingTitle}</Text>
                 <Text style={styles.Header}>{!!(listingHeader) && listingHeader}</Text>
-                <TouchableOpacity style={styles.Header} onPress={() => { navigation.navigate({ name: 'ProfileScreen', params: { name: listingPoster, email: listingUser } }) }}>
+                <TouchableOpacity style={styles.Header} onPress={() => { navigation.navigate({ name: 'ProfileScreen', params: { name: listingPoster, email: listingUser, emailSub: listingPosterSub } }) }}>
                     <Text >Post by: {listingPoster}</Text>
                 </TouchableOpacity>
                 {listingPoster == name && <Button
@@ -109,7 +110,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
                         navigation.navigate('FeedScreen');
                     }}
                     title="Delete"
-                    color="db6b5c" />}
+                    color="#db6b5c" />}
                 <Text></Text>
                 <Text style={styles.Content}>
                     {!!(listingContent) && listingContent}

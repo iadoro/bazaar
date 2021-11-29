@@ -12,7 +12,7 @@ export default function Listing({ navigation, filter, date }) {
   function setupListListener() {
     firebase.database().ref('listings').on('value', (snapshot) => {
       if (snapshot.val() != null) {
-        const noNullData = snapshot.val().filter((item) => item !== null && item && ((item.deleted == false) || (item.deleted == null)));
+        const noNullData = snapshot.val().filter((item) => item !== null && item && (item.deleted != true));
         const validDate = date && noNullData.filter((item) => item.Date == date)
         const searchedData = filter && noNullData.filter((item) => {
           let itemInfo = item.Content.toLowerCase() + " " + item.Title.toLowerCase() + " " + item.Header.toLowerCase();
