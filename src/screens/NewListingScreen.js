@@ -67,7 +67,7 @@ export default function NewListingScreen({ navigation }) {
         Header: header,
         Title: title,
         Key: num,
-        Date: header == "Event" ? date : "",
+        Date: ((header == "Event") || (header == 'event')) ? date : "",
         Poster: name,
         User: email,
         CommentsNum: 0,
