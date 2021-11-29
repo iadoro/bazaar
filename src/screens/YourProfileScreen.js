@@ -7,15 +7,10 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { ListingContainer } from '../essentials/essentials';
-import { List } from 'react-native-feather';
-import BackButton from '../components/BackButton'
+
+export default function YourProfileScreen({ props, navigation }) {
 
 
-export default function ProfileScreen({ route, navigation }) {
-
-    const { name } = route.params;
-    const { email } = route.params;
-    const { emailSub } = route.params
     const [data, setData] = useState(null)
     const [bio, setBio] = useState(null)
     const [editMode, setEditMode] = useState(false);
@@ -28,23 +23,23 @@ export default function ProfileScreen({ route, navigation }) {
         if (user) {
             setAccName(user.displayName);
             setAccEmail(user.email);
-            setupBioListener()
+            setupListListener()
+            setupBioListener();
+
         } else {
         }
     });
 
-
-
     function setupListListener() {
         firebase.database().ref('listings').on('value', (snapshot) => {
             if (snapshot.val() != null) {
-                setData(snapshot.val().filter((item) => (item != null && item && item.User == email)));
+                setData(snapshot.val().filter((item) => (item != null && item && item.User == accEmail)));
             }
 
         })
     }
     function setupBioListener() {
-        firebase.database().ref('/Profiles/' + emailSub).on('value', (snapshot) => {
+        firebase.database().ref('/Profiles/' + accEmail.substr(0, accEmail.indexOf('@'))).on('value', (snapshot) => {
             if (snapshot.val() != null) {
                 setBio(snapshot.val().bio)
                 setNewBio(snapshot.val().bio)
@@ -53,7 +48,7 @@ export default function ProfileScreen({ route, navigation }) {
     }
 
     useEffect(() => {
-        setupListListener()
+
     }, [])
     function renderItem({ item }) {
         let itemKey = item.Key;
@@ -76,21 +71,22 @@ export default function ProfileScreen({ route, navigation }) {
     }
 
     function submitNewBio() {
-        firebase.database().ref('/Profiles/' + emailSub).update({
+        firebase.database().ref('/Profiles/' + accEmail.substr(0, accEmail.indexOf('@'))).update({
             bio: newBio,
         })
     }
     return (
         <View style={styles.page}>
-            <BackButton goBack={navigation.goBack} />
+            <View>
+                {emailSub}
+            </View>
             <StatusBar style="auto" />
             <View style={styles.container}>
-                <Text style={styles.name}>{!!(name) && name}</Text>
+                <Text style={styles.name}>{!!(accName) && accName}</Text>
                 {!editMode && <View><Text>Bio: </Text><Text>{!!(bio) && bio}</Text></View>}
                 {editMode && <View><TextInput
                     style={styles.input}
                     onChangeText={(value) => {
-                        console.log(value)
                         setNewBio(value)
                     }}
                     value={newBio}
@@ -104,14 +100,16 @@ export default function ProfileScreen({ route, navigation }) {
                         title="Submit New Bio"
                         color="#db6b5c"
                     /></View>}
-                {(email == accEmail) && <TouchableOpacity
+                <TouchableOpacity
                     onPress={() => {
                         setEditMode(!editMode)
                     }}
 
                     style={styles.editButton}
-                ><Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text></TouchableOpacity>}
-                <View>
+                >
+                    <Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text>
+                </TouchableOpacity>
+                <View style={styles.list}>
                     <ListingContainer>
                         {Array.isArray(data) &&
                             <FlatList
@@ -121,7 +119,7 @@ export default function ProfileScreen({ route, navigation }) {
                                     return item.Key.toString();
                                 }
                                 }
-                                style={styles.container}
+
                             />}
                     </ListingContainer>
                 </View>
@@ -136,9 +134,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
     },
     list: {
+        marginTop: 20,
         marginBottom: 50,
-        marginTop: 12,
-        width: Dimensions.get('window').width,
     },
     editButton: {
         backgroundColor: '#87CEEB',
@@ -149,7 +146,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     input: {
-        //height: 40,
         margin: 12,
         borderWidth: 1,
         padding: 10,
@@ -168,6 +164,10 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 30,
         marginBottom: Dimensions.get('window').height - 190,
+    },
+    list: {
+        marginTop: 20,
+        marginBottom: Dimensions.get('window').height - 50,
     },
     item: {
         marginLeft: 10,
