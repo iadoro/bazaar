@@ -8,6 +8,7 @@ import { Text, DefaultContainer } from '../essentials/essentials'
 import Listing from '../components/Listing'
 import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
+import { ScrollView } from 'react-native-gesture-handler'
 
 
 export default function CalendarScreen({ navigation }) {
@@ -55,45 +56,52 @@ export default function CalendarScreen({ navigation }) {
   }
 
   return (
-    <DefaultContainer>
-      <Text>Calendar</Text>
-      <Calendar
-        theme={{
-          selectedDayBackgroundColor: '#db6b5c',
-          todayTextColor: '#db6b5c',
-          dotColor: '#db6b5c',
-          arrowColor: '#db6b5c',
-        }}
-        displayLoadingIndicator
-        // Handler which gets executed on day press. Default = undefined
-        onDayPress={(day) => {
-          setMultipleEvents(false)
-          const date = datesToMark[day.dateString]
-          if (date) {
-            if (date.events.length == 1) {
-              const key = date.events[0][1]
-              navigation.navigate({ name: 'ListingPreview', params: { key } })
+    <View styles={styles.page}>
+      <ScrollView>
+        <Calendar
+          theme={{
+            selectedDayBackgroundColor: '#db6b5c',
+            todayTextColor: '#db6b5c',
+            dotColor: '#db6b5c',
+            arrowColor: '#db6b5c',
+          }}
+          displayLoadingIndicator
+          // Handler which gets executed on day press. Default = undefined
+          onDayPress={(day) => {
+            setMultipleEvents(false)
+            const date = datesToMark[day.dateString]
+            if (date) {
+              if (date.events.length == 1) {
+                const key = date.events[0][1]
+                navigation.navigate({ name: 'ListingPreview', params: { key } })
+              }
+              else multipleEventsHandler(day.dateString)
             }
-            else multipleEventsHandler(day.dateString)
-          }
-        }}
-        monthFormat={'MMM yyyy'}
-        hideExtraDays={true}
-        firstDay={1}
-        disableAllTouchEventsForDisabledDays={true}
-        enableSwipeMonths={true}
-        markedDates={datesToMark}
-      />
-      {multipleEvents && <Listing date={selectedDate} navigation={navigation} />}
-    </DefaultContainer>
+          }}
+          monthFormat={'MMM yyyy'}
+          hideExtraDays={true}
+          firstDay={1}
+          disableAllTouchEventsForDisabledDays={true}
+          enableSwipeMonths={true}
+          markedDates={datesToMark}
+          style={styles.Calendar}
+        />
+        {multipleEvents && <Listing date={selectedDate} navigation={navigation} />}
+      </ScrollView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  page: {
+    justifyContent: 'center'
+  },
+  Calendar: {
+    paddingTop: 20,
+  },
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
   },
 })

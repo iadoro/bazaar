@@ -51,7 +51,7 @@ export default function NewListingScreen({ navigation }) {
     else if (!validHeaders.includes(header)) {
       console.log(header)
       console.log("Error message2")
-      setErrorMessage("Header must be one of the following values: ", validHeaders.join(", "))
+      setErrorMessage("Header must be one of the following values: " + validHeaders.join(', '))
     }
     else if (header == "Event" & !moment(date, "YYYY-MM-DD", true).isValid()) {
       console.log(date)
