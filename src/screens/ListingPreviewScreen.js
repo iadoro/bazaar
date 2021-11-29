@@ -108,13 +108,8 @@ export default function ListingPreviewScreen({ route, navigation }) {
                         });
                         navigation.navigate('FeedScreen');
                     }}
-<<<<<<< Updated upstream
-                    title="Delete" 
-                    color="db6b5c"/>}
-=======
                     title="Delete"
-                    color="#db6b5c" />}
->>>>>>> Stashed changes
+                    color="db6b5c" />}
                 <Text></Text>
                 <Text style={styles.Content}>
                     {!!(listingContent) && listingContent}

@@ -128,9 +128,6 @@ const styles = StyleSheet.create({
     },
     list: {
         marginTop: 30,
-<<<<<<< Updated upstream
         marginRight: 10,
-=======
->>>>>>> Stashed changes
     },
 });
