@@ -19,16 +19,20 @@ export default function ProfileScreen({ route, navigation }) {
     const [data, setData] = useState(null)
     const [bio, setBio] = useState(null)
     const [editMode, setEditMode] = useState(false);
-    const [newBio, setNewBio] = useState('');
+    const [newBio, setNewBio] = useState(null);
 
     const auth = firebase.auth();
     const [accName, setAccName] = useState(null);
     const [accEmail, setAccEmail] = useState(null);
+    const [bioListenerSetup, setBioListenerSetup] = useState(false);
     auth.onAuthStateChanged(user => {
         if (user) {
             setAccName(user.displayName);
             setAccEmail(user.email);
-            setupBioListener()
+            if (!bioListenerSetup) {
+                setBioListenerSetup(true);
+                setupBioListener()
+            }
         } else {
         }
     });
