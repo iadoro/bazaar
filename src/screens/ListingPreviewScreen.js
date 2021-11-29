@@ -106,7 +106,8 @@ export default function ListingPreviewScreen({ route, navigation }) {
                         firebase.database().ref('listings/' + route.params.key).remove()
                         navigation.navigate('FeedScreen');
                     }}
-                    title="Delete" />}
+                    title="Delete" 
+                    color="#db6b5c"/>}
                 <Text></Text>
                 <Text style={styles.Content}>
                     {!!(listingContent) && listingContent}
