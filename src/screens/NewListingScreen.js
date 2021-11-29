@@ -70,7 +70,7 @@ export default function NewListingScreen({ navigation }) {
         Date: header == "Event" ? date : "",
         Poster: name,
         User: email,
-        commentsNum: 0,
+        CommentsNum: 0,
       })
       onChangeTitle('');
       onChangeHeader('');
