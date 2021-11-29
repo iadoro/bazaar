@@ -8,6 +8,8 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { ListingContainer } from '../essentials/essentials';
 import { List } from 'react-native-feather';
+import BackButton from '../components/BackButton'
+
 
 export default function ProfileScreen({ route, navigation }) {
 
@@ -80,6 +82,7 @@ export default function ProfileScreen({ route, navigation }) {
     }
     return (
         <View style={styles.page}>
+            <BackButton goBack={navigation.goBack} />
             <StatusBar style="auto" />
             <View style={styles.container}>
                 <Text style={styles.name}>{!!(name) && name}</Text>
