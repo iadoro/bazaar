@@ -107,7 +107,7 @@ export default function ListingPreviewScreen({ route, navigation }) {
                         navigation.navigate('FeedScreen');
                     }}
                     title="Delete" 
-                    color="#db6b5c"/>}
+                    color="db6b5c"/>}
                 <Text></Text>
                 <Text style={styles.Content}>
                     {!!(listingContent) && listingContent}
