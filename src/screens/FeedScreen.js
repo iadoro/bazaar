@@ -5,14 +5,26 @@ import { ScrollView, TextInput, TouchableHighlight } from 'react-native-gesture-
 import { Row, Text, Banner, Header, DefaultContainer, ComponentItem, ListingContainer, SmallLogo } from '../essentials/essentials';
 import Listing from '../components/Listing';
 import styled from 'styled-components/native';
-import firebase from 'firebase/compat/app'
+import { User } from 'react-native-feather';
+
+
+function ProfileButton (navigation) {
+    const color = '#db6b5c';
+    const height = '18px';
+    return (
+        <TouchableHighlight onPress={() => { navigation.navigate("ProfileScreen", { name: name, email: email, emailSub: emailSub }) }}>
+            <User height={height} style={{color: color}}></User>
+        </TouchableHighlight>
+    )
+  
+  }
 
 function SearchBar(props) {
     const Container = styled.View`
     flexDirection: row;
     alignItems: center;
     justifyContent: center;
-    width: ${props.containerWidth ? props.containerWidth : '350'};
+    width: ${props.containerWidth ? props.containerWidth : '320'};
     `;
     const Input = styled.TextInput`
     height: ${props.height ? props.height + 'px' : '40px'};
@@ -53,70 +65,32 @@ function SearchContainer(props) {
         <Container>
             <SearchBar onChangeText={onChangeText}>
             </SearchBar>
+            <ProfileButton>
+            </ProfileButton>
             {props.children}
         </Container>
     )
 }
 
 export default function FeedScreen({ navigation }) {
-    const [topic, onSearchTopic] = useState('')
-    const [name, setName] = useState();
-    const [email, setEmail] = useState();
-    const [emailSub, setEmailSub] = useState();
-
-    // Handle user state changes
-    const auth = firebase.auth();
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            setName(user.displayName);
-            setEmail(user.email);
-            setEmailSub(user.email.substring(0, user.email.indexOf('@')))
-        }
-        else { }
-    });
+    const [topic, onSearchTopic] = useState('Search')
 
     return (
-        <View style={{
-            flex: 1,
-            backgroundColor: '#fff',
-            paddingTop: 20,
-            alignItems: 'center',
-            // flexDirection: 'column',
-            // justifyContent: 'space-around'
-            // justifyContent: 'center'
-        }}>
-            <View style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 350
-            }}>
-                <TextInput
-                    style={{
-                        height: 40,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        borderColor: 'lightgray',
-                        padding: 10,
-                        width: 300,
-                        flex: 4,
-                        backgroundColor: 'rgb(242, 242, 247)'
-                    }}
-                    onChangeText={onSearchTopic}
-                    placeholder="Search Feed"
-                    value={topic} />
-            </View>
-            <Button onPress={() => { navigation.navigate("ProfileScreen", { name: name, email: email, emailSub: emailSub }) }}
-                title="View your Profile"
-                color="#db6b5c" />
-            <View
-                style={{
-                    width: "98%",
-                    height: "100%"
-                }}>
-                <Listing navigation={navigation} filter={topic} />
-            </View>
-        </View >
+        <DefaultContainer>
+            <Banner flex={0.01} width={'auto'}>
+                {/* <TouchableHighlight> */}
+                {/* <ChevronLeft style={{color: 'db6b5c'}}/> */}
+                {/* </TouchableHighlight> */}
+                {/* <SmallLogo flex={2}></SmallLogo> */}
+                {/* <ChevronLeft style={{opacity: 0}}/> */}
+            </Banner>
+            <SearchContainer onChangeText={onSearchTopic} />
+            <ScrollView style={styles.list}>
+
+                <Listing navigation={navigation} />
+
+            </ScrollView>
+        </DefaultContainer>
     );
     // return (
     //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -133,6 +107,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     list: {
-        marginTop: 30,
+        marginTop: 40,
     },
-})
+});
