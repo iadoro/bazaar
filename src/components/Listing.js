@@ -46,7 +46,7 @@ export default function Listing({ navigation, filter, date }) {
     return (
       <View>
         {isDeleted == false && <View style={styles.view}>
-          <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ListingPreview', params: { key: itemKey, }, }) }}>
+          <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ListingPreview', params: { key: itemKey, } },) }}>
             <Text style={styles.item}>[{item.Header}] {item.Title}</Text>
             <Text style={styles.description}>{item.Header == "Event" && `${item.Date}\n`}{item.Content}</Text>
           </TouchableOpacity>

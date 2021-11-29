@@ -86,51 +86,52 @@ export default function ProfileScreen({ route, navigation }) {
     }
     return (
         <View style={styles.page}>
-            <BackButton goBack={navigation.goBack} />
-            <StatusBar style="auto" />
-            <View style={styles.container}>
-                <Text style={styles.name}>{!!(name) && name}</Text>
-                {!editMode && <View><Text>Bio: </Text><Text>{!!(bio) && bio}</Text></View>}
-                {editMode && <View><TextInput
-                    style={styles.input}
-                    onChangeText={(value) => {
-                        console.log(value)
-                        setNewBio(value)
-                        console.log(newBio)
-                    }}
-                    value={newBio}
-                    placeholder="Enter new bio here"
-                    multiline
-                /><Button
+            <ScrollView>
+                <StatusBar style="auto" />
+                <View style={styles.container}>
+                    <Text style={styles.name}>{!!(name) && name}</Text>
+                    {!editMode && <View><Text>Bio: </Text><Text>{!!(bio) && bio}</Text></View>}
+                    {editMode && <View><TextInput
+                        style={styles.input}
+                        onChangeText={(value) => {
+                            console.log(value)
+                            setNewBio(value)
+                            console.log(newBio)
+                        }}
+                        value={newBio}
+                        placeholder="Enter new bio here"
+                        multiline
+                    /><Button
+                            onPress={() => {
+                                submitNewBio();
+                                setEditMode(!editMode)
+                            }}
+                            title="Submit New Bio"
+                            color="#db6b5c"
+                        /></View>}
+                    {(email == accEmail) && <TouchableOpacity
                         onPress={() => {
-                            submitNewBio();
                             setEditMode(!editMode)
                         }}
-                        title="Submit New Bio"
-                        color="#db6b5c"
-                    /></View>}
-                {(email == accEmail) && <TouchableOpacity
-                    onPress={() => {
-                        setEditMode(!editMode)
-                    }}
 
-                    style={styles.editButton}
-                ><Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text></TouchableOpacity>}
-                <View>
-                    <ListingContainer>
-                        {Array.isArray(data) &&
-                            <FlatList
-                                data={data.sort(SortingFunction)}
-                                renderItem={renderItem}
-                                keyExtractor={item => {
-                                    return item.Key.toString();
-                                }
-                                }
-                                style={styles.container}
-                            />}
-                    </ListingContainer>
+                        style={styles.editButton}
+                    ><Text>{editMode ? "Cancel Edit" : "Edit Bio"}</Text></TouchableOpacity>}
+                    <View>
+                        <ListingContainer>
+                            {Array.isArray(data) &&
+                                <FlatList
+                                    data={data.sort(SortingFunction)}
+                                    renderItem={renderItem}
+                                    keyExtractor={item => {
+                                        return item.Key.toString();
+                                    }
+                                    }
+                                    style={styles.container}
+                                />}
+                        </ListingContainer>
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </View>
 
     );
