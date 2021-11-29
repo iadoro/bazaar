@@ -77,6 +77,9 @@ export default function YourProfileScreen({ props, navigation }) {
     }
     return (
         <View style={styles.page}>
+            <View>
+                {emailSub}
+            </View>
             <StatusBar style="auto" />
             <View style={styles.container}>
                 <Text style={styles.name}>{!!(accName) && accName}</Text>

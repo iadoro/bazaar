@@ -26,6 +26,7 @@ export default function ProfileScreen({ route, navigation }) {
         if (user) {
             setAccName(user.displayName);
             setAccEmail(user.email);
+            setupBioListener()
         } else {
         }
     });
@@ -51,7 +52,6 @@ export default function ProfileScreen({ route, navigation }) {
 
     useEffect(() => {
         setupListListener()
-        setupBioListener()
     }, [])
     function renderItem({ item }) {
         let itemKey = item.Key;

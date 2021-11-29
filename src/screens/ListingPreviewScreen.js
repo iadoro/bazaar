@@ -49,18 +49,23 @@ export default function ListingPreviewScreen({ route, navigation }) {
     const auth = firebase.auth();
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
+    const [emailSub, setEmailSub] = useState(null);
     auth.onAuthStateChanged(user => {
         if (user) {
             setName(user.displayName);
             setEmail(user.email);
+            setEmailSub(user.email.substring(0, user.email.indexOf('@')));
         } else {
         }
     });
     function renderItem({ item }) {
         let commentNum = item.Key;
+        var tempEmailSub = item.posterEmail.substring(0, item.posterEmail.indexOf('@'))
+        var tempName = item.poster;
+        var tempEmail = item.posterEmail;
         return (
             <View style={styles.view}>
-                <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ProfileScreen', route: { name: item.poster, email: item.posterEmail, emailSub: item.posterEmail.substring(0, item.posterEmail.indexOf("@")) } }) }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('ProfileScreen', { name: tempName, email: tempEmail, emailSub: tempEmailSub }) }}>
                     <Text style={styles.description}>{item.poster}: {item.comment}</Text>
                 </TouchableOpacity>
             </View >)
@@ -81,7 +86,8 @@ export default function ListingPreviewScreen({ route, navigation }) {
             firebase.database().ref('/listings/' + route.params.key + '/comments/' + commentsNum).set({
                 comment: newComment,
                 poster: name,
-                Key: commentsNum
+                Key: commentsNum,
+                posterEmail: email,
             })
             setNewComment('');
         }
