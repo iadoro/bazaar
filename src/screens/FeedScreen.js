@@ -5,19 +5,21 @@ import { ScrollView, TextInput, TouchableHighlight } from 'react-native-gesture-
 import { Row, Text, Banner, Header, DefaultContainer, ComponentItem, ListingContainer, SmallLogo } from '../essentials/essentials';
 import Listing from '../components/Listing';
 import styled from 'styled-components/native';
-import { User } from 'react-native-feather';
+import { Navigation, User } from 'react-native-feather';
+import 'firebase/compat/auth';
+import firebase from 'firebase/compat/app';
 
 
-function ProfileButton (navigation) {
+function ProfileButton({ navigation, props }) {
     const color = '#db6b5c';
     const height = '18px';
     return (
-        <TouchableHighlight onPress={() => { navigation.navigate("ProfileScreen", { name: name, email: email, emailSub: emailSub }) }}>
-            <User height={height} style={{color: color}}></User>
+        <TouchableHighlight onPress={() => { navigation.navigate("ProfileScreen", { name: props.name, email: props.email, emailSub: props.emailSub }) }}>
+            <User height={height} style={{ color: color }}></User>
         </TouchableHighlight>
     )
-  
-  }
+
+}
 
 function SearchBar(props) {
     const Container = styled.View`
@@ -50,7 +52,7 @@ function SearchBar(props) {
 }
 
 
-function SearchContainer(props) {
+function SearchContainer({ navigation, props }) {
     const Container = styled.View`
     flex: ${props.flex ? props.flex : 0.05};
     flexDirection: ${props.direction ? props.direction : 'row'};
@@ -65,7 +67,7 @@ function SearchContainer(props) {
         <Container>
             <SearchBar onChangeText={onChangeText}>
             </SearchBar>
-            <ProfileButton>
+            <ProfileButton navigation={navigation} props={{ name: props.name, email: props.email, emailSub: props.emailSub }}>
             </ProfileButton>
             {props.children}
         </Container>
@@ -74,7 +76,18 @@ function SearchContainer(props) {
 
 export default function FeedScreen({ navigation }) {
     const [topic, onSearchTopic] = useState('Search')
-
+    const auth = firebase.auth();
+    const [name, setName] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [emailSub, setEmailSub] = useState(null);
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            setName(user.displayName);
+            setEmail(user.email);
+            setEmailSub(user.email.substring(0, user.email.indexOf('@')));
+        } else {
+        }
+    });
     return (
         <DefaultContainer>
             <Banner flex={0.01} width={'auto'}>
@@ -84,7 +97,7 @@ export default function FeedScreen({ navigation }) {
                 {/* <SmallLogo flex={2}></SmallLogo> */}
                 {/* <ChevronLeft style={{opacity: 0}}/> */}
             </Banner>
-            <SearchContainer onChangeText={onSearchTopic} />
+            <SearchContainer onChangeText={onSearchTopic} navigation={navigation} props={{ name: name, email: email, emailSub: emailSub }} />
             <ScrollView style={styles.list}>
 
                 <Listing navigation={navigation} />
