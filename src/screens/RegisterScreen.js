@@ -23,13 +23,13 @@ export default function RegisterScreen({ navigation }) {
     // TODO: Error handling with invalid name, email, and password
     // TODO: Set up API to handle authentication
     setErrorMessage(null)
-    if(email.toLowerCase().includes('@virginia.edu')){
+    if (email.toLowerCase().includes('@virginia.edu')) {
       firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
         userCredential.user.updateProfile({
           displayName: name
         })
         var user = userCredential.user;
-        firebase.auth().currentUser.sendEmailVerification().then(() => {});
+        firebase.auth().currentUser.sendEmailVerification().then(() => { });
         setErrorMessage("Please check your email to verify your account");
         console.log("Please check your email to verify your account");
       })
@@ -39,10 +39,10 @@ export default function RegisterScreen({ navigation }) {
         });
 
     }
-    else{
+    else {
       console.log('Please use a Univeristy of Virginia email')
       setErrorMessage('Please use a Univeristy of Virginia email')
-    } 
+    }
   }
 
   const forgotPassword = () => {
@@ -79,6 +79,7 @@ export default function RegisterScreen({ navigation }) {
         onChangeText={onChangePassword}
         secureTextEntry
       />
+      <Text>{!!errorMessage && errorMessage}</Text>
       <Button
         mode="contained"
         onPress={() => authenticate()}
