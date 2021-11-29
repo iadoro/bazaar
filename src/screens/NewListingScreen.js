@@ -70,6 +70,7 @@ export default function NewListingScreen({ navigation }) {
         Date: header == "Event" ? date : "",
         Poster: name,
         User: email,
+        commentsNum: 0,
       })
       onChangeTitle('');
       onChangeHeader('');
@@ -79,49 +80,49 @@ export default function NewListingScreen({ navigation }) {
   }
   return (
     <Background>
-    <View style={styles.container}>
-      <ScrollView>
-        <SafeAreaView>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeTitle}
-            value={title}
-            placeholder="Enter event/item name here"
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeHeader}
-            value={header}
-            placeholder="Enter event/item type here (event/free item/barter item)"
-          />
-          {header == "Event" && <TextInput
-            style={styles.input}
-            onChangeText={onChangeDate}
-            value={date}
-            placeholder="Date of Event in the format YYYY-MM-DD"
-          />}
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeContent}
-            value={content}
-            placeholder="Enter event/item information here"
-            multiline
-          />
-          {!!(errorMessage) && <Text>{errorMessage}</Text>}
-          <Button
-            onPress={() => {
-              console.log("On Press");
-              submit();
-              console.log("After submit")
-            }}
-            title="submit"
-            color="#db6b5c"
-          />
-        </SafeAreaView>
-      </ScrollView>
-    </View>
+      <View style={styles.container}>
+        <ScrollView>
+          <SafeAreaView>
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeTitle}
+              value={title}
+              placeholder="Enter event/item name here"
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeHeader}
+              value={header}
+              placeholder="Enter event/item type here (event/free item/barter item)"
+            />
+            {header == "Event" && <TextInput
+              style={styles.input}
+              onChangeText={onChangeDate}
+              value={date}
+              placeholder="Date of Event in the format YYYY-MM-DD"
+            />}
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeContent}
+              value={content}
+              placeholder="Enter event/item information here"
+              multiline
+            />
+            {!!(errorMessage) && <Text>{errorMessage}</Text>}
+            <Button
+              onPress={() => {
+                console.log("On Press");
+                submit();
+                console.log("After submit")
+              }}
+              title="submit"
+              color="#db6b5c"
+            />
+          </SafeAreaView>
+        </ScrollView>
+      </View>
     </Background>
-    
+
   );
   //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
   //     <Text>New Listing!</Text>
