@@ -20,7 +20,7 @@ export default function CalendarScreen({ navigation }) {
   function setupListListener() {
     firebase.database().ref('listings').on('value', (snapshot) => {
       if (snapshot.val() != null) {
-        setData(snapshot.val())
+        setData(snapshot.val().filter((item) => (item != null && item && ((item.deleted == false) || (item.deleted == null)))));
         eventsByDate(snapshot.val())
       }
 

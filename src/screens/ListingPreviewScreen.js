@@ -1,4 +1,6 @@
 import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
 import React, { useEffect, useState } from "react"
 import { Animated, FlatList, SafeAreaView, ScrollView, Image, StyleSheet, Text, View, Button } from "react-native"
 import TextInput from '../components/TextInput'
@@ -10,8 +12,6 @@ import YourProfileScreen from './YourProfileScreen'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ComponentItem, DefaultContainer } from '../essentials/essentials';
-import 'firebase/compat/firestore';
-import 'firebase/compat/auth';
 import HomeScreen from './HomeScreen';
 import BackButton from '../components/BackButton'
 
@@ -103,11 +103,18 @@ export default function ListingPreviewScreen({ route, navigation }) {
                 </TouchableOpacity>
                 {listingPoster == name && <Button
                     onPress={() => {
-                        firebase.database().ref('listings/' + route.params.key).remove()
+                        firebase.database().ref('listings/' + route.params.key).update({
+                            deleted: true,
+                        });
                         navigation.navigate('FeedScreen');
                     }}
+<<<<<<< Updated upstream
                     title="Delete" 
                     color="db6b5c"/>}
+=======
+                    title="Delete"
+                    color="#db6b5c" />}
+>>>>>>> Stashed changes
                 <Text></Text>
                 <Text style={styles.Content}>
                     {!!(listingContent) && listingContent}

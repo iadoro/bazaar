@@ -5,28 +5,17 @@ import { ScrollView, TextInput, TouchableHighlight } from 'react-native-gesture-
 import { Row, Text, Banner, Header, DefaultContainer, ComponentItem, ListingContainer, SmallLogo } from '../essentials/essentials';
 import Listing from '../components/Listing';
 import styled from 'styled-components/native';
-import { Navigation, User } from 'react-native-feather';
-import 'firebase/compat/auth';
 import firebase from 'firebase/compat/app';
-
-
-function ProfileButton({ navigation, props }) {
-    const color = '#db6b5c';
-    const height = '18px';
-    return (
-        <TouchableHighlight onPress={() => { navigation.navigate("ProfileScreen", { name: props.name, email: props.email, emailSub: props.emailSub }) }}>
-            <User height={height} style={{ color: color }}></User>
-        </TouchableHighlight>
-    )
-
-}
+import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
+import { User } from 'react-native-feather';
 
 function SearchBar(props) {
     const Container = styled.View`
     flexDirection: row;
     alignItems: center;
     justifyContent: center;
-    width: ${props.containerWidth ? props.containerWidth : '320'};
+    width: ${props.containerWidth ? props.containerWidth : '350'};
     `;
     const Input = styled.TextInput`
     height: ${props.height ? props.height + 'px' : '40px'};
@@ -40,7 +29,6 @@ function SearchBar(props) {
     flex: ${props.flex ? props.flex : '4'};
     backgroundColor: ${props.backgroundColor ? props.backgroundColor : 'rgb(242, 242, 247)'};
     `;
-
     return (
         <Container>
             <Input onChangeText={props.onChangeText ? props.onChangeText : null}
@@ -50,9 +38,7 @@ function SearchBar(props) {
         </Container>
     )
 }
-
-
-function SearchContainer({ navigation, props }) {
+function SearchContainer(props) {
     const Container = styled.View`
     flex: ${props.flex ? props.flex : 0.05};
     flexDirection: ${props.direction ? props.direction : 'row'};
@@ -60,22 +46,17 @@ function SearchContainer({ navigation, props }) {
     alignItems: ${props.align ? props.align : 'center'};
     justifyContent: ${props.justify ? props.justify : 'space-between'};
     `;
-
     const onChangeText = props.onChangeText ? props.onChangeText : null;
-
     return (
         <Container>
             <SearchBar onChangeText={onChangeText}>
             </SearchBar>
-            <ProfileButton navigation={navigation} props={{ name: props.name, email: props.email, emailSub: props.emailSub }}>
-            </ProfileButton>
             {props.children}
         </Container>
     )
 }
-
 export default function FeedScreen({ navigation }) {
-    const [topic, onSearchTopic] = useState('Search')
+    const [topic, onSearchTopic] = useState('')
     const auth = firebase.auth();
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
@@ -89,21 +70,48 @@ export default function FeedScreen({ navigation }) {
         }
     });
     return (
-        <DefaultContainer>
-            <Banner flex={0.01} width={'auto'}>
-                {/* <TouchableHighlight> */}
-                {/* <ChevronLeft style={{color: 'db6b5c'}}/> */}
-                {/* </TouchableHighlight> */}
-                {/* <SmallLogo flex={2}></SmallLogo> */}
-                {/* <ChevronLeft style={{opacity: 0}}/> */}
-            </Banner>
-            <SearchContainer onChangeText={onSearchTopic} navigation={navigation} props={{ name: name, email: email, emailSub: emailSub }} />
-            <ScrollView style={styles.list}>
 
-                <Listing navigation={navigation} />
-
-            </ScrollView>
-        </DefaultContainer>
+        <View style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            paddingTop: 20,
+            alignItems: 'center',
+            // flexDirection: 'column',
+            // justifyContent: 'space-around'
+            // justifyContent: 'center'
+        }}>
+            <TouchableHighlight onPress={() => { navigation.navigate("ProfileScreen", { name: name, email: email, emailSub: emailSub }) }}>
+                <User height={'18px'} style={{ color: '#db6b5c' }}></User>
+            </TouchableHighlight>
+            <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 320
+            }}>
+                <TextInput
+                    style={{
+                        height: 40,
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        borderColor: 'lightgray',
+                        padding: 10,
+                        width: 300,
+                        flex: 4,
+                        backgroundColor: 'rgb(242, 242, 247)'
+                    }}
+                    onChangeText={onSearchTopic}
+                    placeholder="Search Feed"
+                    value={topic} />
+            </View>
+            <View
+                style={{
+                    width: "98%",
+                    height: "100%"
+                }}>
+                <Listing navigation={navigation} filter={topic} />
+            </View>
+        </View>
     );
     // return (
     //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -111,7 +119,6 @@ export default function FeedScreen({ navigation }) {
     //   </View>
     // )
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -121,6 +128,9 @@ const styles = StyleSheet.create({
     },
     list: {
         marginTop: 30,
+<<<<<<< Updated upstream
         marginRight: 10,
+=======
+>>>>>>> Stashed changes
     },
 });

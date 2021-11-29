@@ -38,7 +38,7 @@ export default function ProfileScreen({ route, navigation }) {
     function setupListListener() {
         firebase.database().ref('listings').on('value', (snapshot) => {
             if (snapshot.val() != null) {
-                setData(snapshot.val().filter((item) => (item != null && item && item.User == email)));
+                setData(snapshot.val().filter((item) => (item != null && item && item.User == email && ((item.deleted == false) || (item.deleted == null)))));
             }
 
         })
@@ -92,6 +92,7 @@ export default function ProfileScreen({ route, navigation }) {
                     onChangeText={(value) => {
                         console.log(value)
                         setNewBio(value)
+                        console.log(newBio)
                     }}
                     value={newBio}
                     placeholder="Enter new bio here"

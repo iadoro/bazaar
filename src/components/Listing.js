@@ -8,10 +8,11 @@ import 'firebase/compat/auth';
 export default function Listing({ navigation, filter, date }) {
   const [data, setData] = useState(null)
   const [key, setKey] = useState(null)
+  const [isDeleted, setIsDeleted] = useState(false)
   function setupListListener() {
     firebase.database().ref('listings').on('value', (snapshot) => {
       if (snapshot.val() != null) {
-        const noNullData = snapshot.val().filter((item) => item !== null && item);
+        const noNullData = snapshot.val().filter((item) => item !== null && item && ((item.deleted == false) || (item.deleted == null)));
         const validDate = date && noNullData.filter((item) => item.Date == date)
         const searchedData = filter && noNullData.filter((item) => {
           let itemInfo = item.Content.toLowerCase() + " " + item.Title.toLowerCase() + " " + item.Header.toLowerCase();
@@ -38,13 +39,20 @@ export default function Listing({ navigation, filter, date }) {
   }, [])
   function renderItem({ item }) {
     let itemKey = item.Key;
+    setIsDeleted(false);
+    if (item.deleted != null) {
+      setIsDeleted(item.delted);
+    }
     return (
-      <View style={styles.view}>
-        <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ListingPreview', params: { key: itemKey, }, }) }}>
-          <Text style={styles.item}>[{item.Header}] {item.Title}</Text>
-          <Text style={styles.description}>{item.Header == "Event" && `${item.Date}\n`}{item.Content}</Text>
-        </TouchableOpacity>
-      </View >)
+      <View>
+        {isDeleted == false && <View style={styles.view}>
+          <TouchableOpacity onPress={() => { navigation.navigate({ name: 'ListingPreview', params: { key: itemKey, }, }) }}>
+            <Text style={styles.item}>[{item.Header}] {item.Title}</Text>
+            <Text style={styles.description}>{item.Header == "Event" && `${item.Date}\n`}{item.Content}</Text>
+          </TouchableOpacity>
+        </View >}
+      </View>
+    )
   }
 
   function SortingFunction(first, second) {
